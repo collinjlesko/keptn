@@ -20,6 +20,7 @@ export DT_API_TOKEN=$(cat creds.json | jq -r '.dynatraceApiToken')
 export DT_PAAS_TOKEN=$(cat creds.json | jq -r '.dynatracePaaSToken')
 export GITHUB_ORGANIZATION=$(cat creds.json | jq -r '.githubOrg')
 export DT_TENANT_URL="$DT_TENANT_ID.live.dynatrace.com"
+export BASTION_IP=$(cat creds.json | jq -r '.bastionIp')
 
 # Grant cluster admin rights to gcloud user
 export GCLOUD_USER=$(gcloud config get-value account)
@@ -48,6 +49,7 @@ rm -f ../manifests/gen/k8s-jenkins-deployment.yml
 cat ../manifests/jenkins/k8s-jenkins-deployment.yml | \
   sed 's~GITHUB_USER_EMAIL_PLACEHOLDER~'"$GITHUB_USER_EMAIL"'~' | \
   sed 's~GITHUB_ORGANIZATION_PLACEHOLDER~'"$GITHUB_ORGANIZATION"'~' | \
+  sed 's~BASTION_IP_PLACEHOLDER~'"$BASTION_IP"'~' | \
   sed 's~DOCKER_REGISTRY_IP_PLACEHOLDER~'"$REGISTRY_URL"'~' | \
   sed 's~DT_TENANT_URL_PLACEHOLDER~'"$DT_TENANT_URL"'~' | \
   sed 's~DT_API_TOKEN_PLACEHOLDER~'"$DT_API_TOKEN"'~' >> ../manifests/gen/k8s-jenkins-deployment.yml

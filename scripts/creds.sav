@@ -1,6 +1,7 @@
 {
     "jenkinsUser": "admin",
     "jenkinsPassword": "AiTx4u8VyUV8tCKk",
+    "bastionIp": "BASTION_IP_PLACEHOLDER",
     "dynatraceTenant": "DYNATRACE_TENANT_PLACEHOLDER",
     "dynatraceApiToken": "DYNATRACE_API_TOKEN",
     "dynatracePaaSToken": "DYNATRACE_PAAS_TOKEN",

@@ -14,6 +14,7 @@ read -p "GitHub User Name: " GITU
 read -p "GitHub Personal Access Token: " GITAT
 read -p "GitHub User Email: " GITE
 read -p "GitHub Organization: " GITO
+read -p "Bastion IP: " BASIP
 echo ""
 
 if [[ $DTENV = '' ]]
@@ -35,6 +36,7 @@ echo "GitHub User Name: $GITU"
 echo "GitHub Personal Access Token: $GITAT"
 echo "GitHub User Email: $GITE"
 echo "GitHub Organization: $GITO" 
+echo "Bastion IP: $BASIP" 
 read -p "Is this all correct? (y/n) : " -n 1 -r
 echo ""
 
@@ -44,6 +46,7 @@ then
     cat ./creds.sav | sed 's~DYNATRACE_TENANT_PLACEHOLDER~'"$DTENV"'~' | \
       sed 's~DYNATRACE_API_TOKEN~'"$DTAPI"'~' | \
       sed 's~DYNATRACE_PAAS_TOKEN~'"$DTPAAST"'~' | \
+      sed 's~BASTION_IP_PLACEHOLDER~'"$BASIP"'~' | \
       sed 's~GITHUB_USER_NAME_PLACEHOLDER~'"$GITU"'~' | \
       sed 's~PERSONAL_ACCESS_TOKEN_PLACEHOLDER~'"$GITAT"'~' | \
       sed 's~GITHUB_USER_EMAIL_PLACEHOLDER~'"$GITE"'~' | \
