@@ -43,6 +43,8 @@ export REGISTRY_URL=$(kubectl describe svc docker-registry -n cicd | grep IP: | 
 
 echo "REGISTRY_URL: " $REGISTRY_URL
 
+sudo ../../scripts/configureNodes.sh
+
 # Create Jenkins
 rm -f ../manifests/gen/k8s-jenkins-deployment.yml
 
