@@ -7,7 +7,7 @@ export DT_API_TOKEN=$(cat creds.json | jq -r '.dynatraceApiToken')
 
 
 curl -X POST \
-  "https://$DT_TENANT_ID.live.dynatrace.com/api/config/v1/autoTags?Api-Token=$DT_API_TOKEN" \
+  "https://$DT_TENANT_ID/api/config/v1/autoTags?api-token=$DT_API_TOKEN" \
   -H 'Content-Type: application/json' \
   -H 'cache-control: no-cache' \
   -d '{
@@ -39,7 +39,7 @@ curl -X POST \
 }'
 
 curl -X POST \
-  "https://$DT_TENANT_ID.live.dynatrace.com/api/config/v1/autoTags?Api-Token=$DT_API_TOKEN" \
+  "https://$DT_TENANT_ID/api/config/v1/autoTags?api-token=$DT_API_TOKEN" \
   -H 'Content-Type: application/json' \
   -H 'cache-control: no-cache' \
   -d '{

@@ -26,6 +26,12 @@ kubectl create -f ../../repositories/k8s-deploy-production/istio/destination_rul
 kubectl create -f ../../repositories/k8s-deploy-production/istio/virtual_service.yml
 
 # ./createServiceEntry.sh $DT_TENANT_ID $DT_PAAS_TOKEN
+if [[ $DT_TENANT == *"live.dynatrace"*  ]]; then
+  print_info "Creating service entries for Dynatrace OneAgent."
+  ./createServiceEntry.sh $DT_TENANT_ID $DT_PAAS_TOKEN
+  #verify_install_step $? "Creating service entries for Dynatrace OneAgent failed."
+  print_info "Creating service entries for Dynatrace OneAgent done."
+fi
 
 sleep 10
 

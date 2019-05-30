@@ -1,6 +1,6 @@
 #!/bin/bash
 
-entries=$(curl https://$1.live.dynatrace.com/api/v1/deployment/installer/agent/connectioninfo?Api-Token=$2 | jq -r '.communicationEndpoints[]')
+entries=$(curl https://$1/api/v1/deployment/installer/agent/connectioninfo?api-token=$2 | jq -r '.communicationEndpoints[]')
 
 rm -f ../manifests/gen/service_entries_oneagent.yml
 rm -f ../manifests/gen/hosts
@@ -8,8 +8,8 @@ rm -f ../manifests/gen/service_entries
 
 cat ../manifests/istio/service_entries_tpl/header_tmpl >> ../manifests/gen/service_entries_oneagent.yml
 
-echo -e "  - $1.live.dynatrace.com" >> ../manifests/gen/hosts
-cat ../manifests/istio/service_entries_tpl/service_entry_tmpl | sed 's~ENDPOINT_PLACEHOLDER~'"$1"'.live.dynatrace.com~' >> ../manifests/gen/service_entries
+echo -e "  - $1" >> ../manifests/gen/hosts
+cat ../manifests/istio/service_entries_tpl/service_entry_tmpl | sed 's~ENDPOINT_PLACEHOLDER~'"$1"'~' >> ../manifests/gen/service_entries
 
 for row in $entries; do
     row=$(echo $row | sed 's~https://~~')

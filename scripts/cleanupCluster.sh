@@ -17,6 +17,7 @@ kubectl delete namespace production
 # Clean up dynatrace namespace
 kubectl delete services,deployments,pods --all -n dynatrace
 kubectl delete namespace dynatrace
+kubectl delete secret dynatrace -n keptn --ignore-not-found
 
 # Clean up tower namespace
 kubectl delete services,deployments,pods --all -n tower
