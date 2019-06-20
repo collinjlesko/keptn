@@ -9,7 +9,7 @@ export DT_TENANT_ID=$(cat creds.json | jq -r '.dynatraceTenant')
 export DT_API_TOKEN=$(cat creds.json | jq -r '.dynatraceApiToken')
 export DT_PAAS_TOKEN=$(cat creds.json | jq -r '.dynatracePaaSToken')
 export GITHUB_ORGANIZATION=$(cat creds.json | jq -r '.githubOrg')
-export DT_TENANT_URL="$DT_TENANT_ID.live.dynatrace.com"
+export DT_TENANT_URL="$DT_TENANT_ID"
 
 export JENKINS_URL=$(kubectl describe svc jenkins -n cicd | grep IP: | sed 's/IP:[ \t]*//')
 export CART_URL=$(kubectl describe svc carts -n production | grep "LoadBalancer Ingress:" | sed 's/LoadBalancer Ingress:[ \t]*//')
@@ -64,7 +64,7 @@ export INVENTORY_ID=$(curl -k -X POST https://$TOWER_URL/api/v1/inventories/ --u
   "name": "inventory",
   "type": "inventory",
   "organization": 1,
-  "variables": "---\ntenantid: \"'$DT_TENANT_ID'\"\ncarts_promotion_url: \"http://'$CART_URL'/carts/1/items/promotion\"\ncommentuser: \"Ansible Playbook\"\ntower_user: \"admin\"\ntower_password: \"dynatrace\"\ndtcommentapiurl: \"https://{{tenantid}}.live.dynatrace.com/api/v1/problem/details/{{pid}}/comments?Api-Token={{DYNATRACE_API_TOKEN}}\"\ndteventapiurl: \"https://{{tenantid}}.live.dynatrace.com/api/v1/events/?Api-Token={{DYNATRACE_API_TOKEN}}\""
+  "variables": "---\ntenantid: \"'$DT_TENANT_ID'\"\ncarts_promotion_url: \"http://'$CART_URL'/carts/1/items/promotion\"\ncommentuser: \"Ansible Playbook\"\ntower_user: \"admin\"\ntower_password: \"dynatrace\"\ndtcommentapiurl: \"https://{{tenantid}}/api/v1/problem/details/{{pid}}/comments?Api-Token={{DYNATRACE_API_TOKEN}}\"\ndteventapiurl: \"https://{{tenantid}}/api/v1/events/?Api-Token={{DYNATRACE_API_TOKEN}}\""
 }' | jq -r '.id')
 echo "INVENTORY_ID: " $INVENTORY_ID
 
@@ -111,7 +111,7 @@ export CANARY_RESET_ID=$(curl -k -X POST https://$TOWER_URL/api/v1/job_templates
   "inventory": '$INVENTORY_ID',
   "project": '$PROJECT_ID',
   "playbook": "scripts/playbooks/canary.yaml",
-  "extra_vars": "---\ndt_app: \"front-end\"\ndt_env: \"production\"\ndteventapiurl: \"https://{{tenantid}}.live.dynatrace.com/api/v1/events/?Api-Token={{apitoken}}\"\njenkins_user: \"'$JENKINS_USER'\"\njenkins_password: \"'$JENKINS_PASSWORD'\"\njenkins_url: \"http://'$JENKINS_URL':24711/job/k8s-deploy-production-canary/build?delay=0sec\"\nremediation_url: \"\"",
+  "extra_vars": "---\ndt_app: \"front-end\"\ndt_env: \"production\"\ndteventapiurl: \"https://{{tenantid}}/api/v1/events/?Api-Token={{apitoken}}\"\njenkins_user: \"'$JENKINS_USER'\"\njenkins_password: \"'$JENKINS_PASSWORD'\"\njenkins_url: \"http://'$JENKINS_URL':24711/job/k8s-deploy-production-canary/build?delay=0sec\"\nremediation_url: \"\"",
   "ask_variables_on_launch": false,
   "job_tags": "canary_reset"
 }' | jq -r '.id')
@@ -124,7 +124,7 @@ export CANARY_ID=$(curl -k -X POST https://$TOWER_URL/api/v1/job_templates/ --us
   "inventory": '$INVENTORY_ID',
   "project": '$PROJECT_ID',
   "playbook": "scripts/playbooks/canary.yaml",
-  "extra_vars": "---\ndt_app: \"front-end\"\ndt_env: \"production\"\ndteventapiurl: \"https://{{tenantid}}.live.dynatrace.com/api/v1/events/?Api-Token={{apitoken}}\"\njenkins_user: \"'$JENKINS_USER'\"\njenkins_password: \"'$JENKINS_PASSWORD'\"\njenkins_url: \"http://'$JENKINS_URL':24711/job/k8s-deploy-production-canary/build?delay=0sec\"\nremediation_url: \"https://'$TOWER_URL'/api/v2/job_templates/'$CANARY_RESET_ID'/launch/\"",
+  "extra_vars": "---\ndt_app: \"front-end\"\ndt_env: \"production\"\ndteventapiurl: \"https://{{tenantid}}/api/v1/events/?Api-Token={{apitoken}}\"\njenkins_user: \"'$JENKINS_USER'\"\njenkins_password: \"'$JENKINS_PASSWORD'\"\njenkins_url: \"http://'$JENKINS_URL':24711/job/k8s-deploy-production-canary/build?delay=0sec\"\nremediation_url: \"https://'$TOWER_URL'/api/v2/job_templates/'$CANARY_RESET_ID'/launch/\"",
   "ask_variables_on_launch": true,
   "skip_tags": "canary_reset"
 }' | jq -r '.id')
