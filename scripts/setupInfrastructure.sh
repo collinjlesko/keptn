@@ -29,6 +29,9 @@ kubectl create clusterrolebinding dynatrace-cluster-admin-binding --clusterrole=
 # Create K8s namespaces
 kubectl create -f ../manifests/k8s-namespaces.yml
 
+# Create Storage Class
+kubectl create -f ~/manifests-env-zero/k8s-storage.yml
+
 # Create container registry
 kubectl create -f ../manifests/container-registry/k8s-docker-registry-pvc.yml
 kubectl create -f ../manifests/container-registry/k8s-docker-registry-deployment.yml
@@ -43,7 +46,10 @@ export REGISTRY_URL=$(kubectl describe svc docker-registry -n cicd | grep IP: | 
 
 echo "REGISTRY_URL: " $REGISTRY_URL
 
-sudo ../../scripts/configureNodes.sh
+echo "Configuring Nodes for Insecure Registries...."
+sudo chmod +x
+sudo ~/scripts/configureNodes.sh
+echo "Configured"
 
 # Create Jenkins
 rm -f ../manifests/gen/k8s-jenkins-deployment.yml
@@ -189,6 +195,17 @@ sleep 120
 echo "--------------------------"
 echo "End set up Ansible Tower "
 echo "--------------------------"
+
+echo "--------------------------"
+echo "Finish Istio Config "
+echo "--------------------------"
+
+kubectl apply -f ~/manifests-istio/crds.yaml
+kubectl apply -f ~/manifests-istio/istio-demo.yaml
+kubectl apply -f ~/repositories/k8s-deploy-production/istio/gateway.yml
+kubectl apply -f ~/repositories/k8s-deploy-production/istio/virtual_service.yml
+kubectl apply -f ~/repositories/k8s-deploy-production/istio/destination_rule.yml
+kubectl apply -f ~/repositories/k8s-deploy-production/istio/service_entries_sockshop.yml
 
 echo "----------------------------------------------------"
 echo "Finished setting up infrastructure "
