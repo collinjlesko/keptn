@@ -1,9 +1,11 @@
 #!/bin/bash
 
+labnum=$1
+
 YLW='\033[1;33m'
 NC='\033[0m'
 
-CREDS=./creds.json
+CREDS=/home/acllab$labnum/keptn/scripts/creds.json
 rm $CREDS 2> /dev/null
 
 echo -e "${YLW}Please enter the credentials as requested below: ${NC}"
@@ -43,7 +45,7 @@ echo ""
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     rm $CREDS 2> /dev/null
-    cat ./creds.sav | sed 's~DYNATRACE_TENANT_PLACEHOLDER~'"$DTENV"'~' | \
+    cat /home/acllab$labnum/keptn/scripts/creds.sav | sed 's~DYNATRACE_TENANT_PLACEHOLDER~'"$DTENV"'~' | \
       sed 's~DYNATRACE_API_TOKEN~'"$DTAPI"'~' | \
       sed 's~DYNATRACE_PAAS_TOKEN~'"$DTPAAST"'~' | \
       sed 's~BASTION_IP_PLACEHOLDER~'"$BASIP"'~' | \

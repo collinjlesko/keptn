@@ -7,7 +7,7 @@ set x [lindex $argv 4];
 
 set timeout -1
 
-spawn /home/acllab$x/keptn/scripts/defineCredentials.sh
+spawn /home/acllab$x/keptn/scripts/defineCredentials.sh $x
 match_max 100000
 
 expect "Dynatrace Tenant ID (8-digits)"
