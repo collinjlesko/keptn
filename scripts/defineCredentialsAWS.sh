@@ -1,6 +1,6 @@
 #!/bin/bash
 
-labnum=$1
+#labnum=$1
 
 YLW='\033[1;33m'
 NC='\033[0m'
