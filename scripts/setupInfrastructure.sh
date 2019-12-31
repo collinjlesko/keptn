@@ -68,8 +68,8 @@ kubectl create -f ../manifests/jenkins/k8s-jenkins-rbac.yml
 
 # Deploy Dynatrace operator
 # instead of taking the latest release we go with the version v0.3.0
-# export LATEST_RELEASE=$(curl -s https://api.github.com/repos/dynatrace/dynatrace-oneagent-operator/releases/latest | grep tag_name | cut -d '"' -f 4)
-export LATEST_RELEASE=v0.3.0
+export LATEST_RELEASE=$(curl -s https://api.github.com/repos/dynatrace/dynatrace-oneagent-operator/releases/latest | grep tag_name | cut -d '"' -f 4)
+# export LATEST_RELEASE=v0.3.0
 echo "Installing Dynatrace Operator $LATEST_RELEASE"
 kubectl create namespace dynatrace
 kubectl create -f https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/$LATEST_RELEASE/deploy/kubernetes.yaml --validate=false
@@ -79,6 +79,9 @@ rm -f ../manifests/gen/oneagent-cr.yml
 curl -o ../manifests/dynatrace/oneagent-cr.yml https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/$LATEST_RELEASE/deploy/cr.yaml
 cat ../manifests/dynatrace/oneagent-cr.yml | sed 's~ENVIRONMENTID.live.dynatrace.com~'"$DT_TENANT_ID"'~' >> ../manifests/dynatrace/cr_tmp.yml
 mv ../manifests/dynatrace/cr_tmp.yml ../manifests/gen/oneagent-cr.yml
+#add sed for enable istio here...
+#everything else worked?
+sed -i 's/#enableIstio: false/enableIstio: true/g' ../manifests/gen/oneagent-cr.yml
 kubectl create -f ../manifests/gen/oneagent-cr.yml
 
 # Apply auto tagging rules in Dynatrace
