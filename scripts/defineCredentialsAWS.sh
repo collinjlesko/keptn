@@ -5,14 +5,16 @@
 YLW='\033[1;33m'
 NC='\033[0m'
 
-CREDS=/home/ubuntu/repositories/keptn/scripts/creds.json
+usern=$1
+
+CREDS=/home/$usern/repositories/keptn/scripts/creds.json
 rm $CREDS 2> /dev/null
 
 echo -e "${YLW}Please enter the credentials as requested below: ${NC}"
 read -p "Dynatrace Tenant ID (8-digits) (default=$DTENV): " DTENVC
 read -p "Dynatrace API Token (default=$DTAPI): " DTAPIC
 read -p "Dynatrace PaaS Token (default=$DTAPI): " DTPAAST
-read -p "GitHub User Name: " GITU 
+read -p "GitHub User Name: " GITU
 read -p "GitHub Personal Access Token: " GITAT
 read -p "GitHub User Email: " GITE
 read -p "GitHub Organization: " GITO
@@ -20,12 +22,12 @@ read -p "Bastion IP: " BASIP
 echo ""
 
 if [[ $DTENV = '' ]]
-then 
+then
     DTENV=$DTENVC
 fi
 
 if [[ $DTAPI = '' ]]
-then 
+then
     DTAPI=$DTAPIC
 fi
 
@@ -37,15 +39,15 @@ echo "Dynatrace PaaS Token: $DTPAAST"
 echo "GitHub User Name: $GITU"
 echo "GitHub Personal Access Token: $GITAT"
 echo "GitHub User Email: $GITE"
-echo "GitHub Organization: $GITO" 
-echo "Bastion IP: $BASIP" 
+echo "GitHub Organization: $GITO"
+echo "Bastion IP: $BASIP"
 read -p "Is this all correct? (y/n) : " -n 1 -r
 echo ""
 
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     rm $CREDS 2> /dev/null
-    cat /home/ubuntu/repositories/keptn/scripts/creds.sav | sed 's~DYNATRACE_TENANT_PLACEHOLDER~'"$DTENV"'~' | \
+    cat /home/$usern/repositories/keptn/scripts/creds.sav | sed 's~DYNATRACE_TENANT_PLACEHOLDER~'"$DTENV"'~' | \
       sed 's~DYNATRACE_API_TOKEN~'"$DTAPI"'~' | \
       sed 's~DYNATRACE_PAAS_TOKEN~'"$DTPAAST"'~' | \
       sed 's~BASTION_IP_PLACEHOLDER~'"$BASIP"'~' | \
