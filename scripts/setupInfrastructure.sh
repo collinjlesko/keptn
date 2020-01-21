@@ -46,11 +46,6 @@ export REGISTRY_URL=$(kubectl describe svc docker-registry -n cicd | grep IP: | 
 
 echo "REGISTRY_URL: " $REGISTRY_URL
 
-echo "Configuring Nodes for Insecure Registries...."
-sudo chmod +x ~/scripts/configureNodes.sh
-sudo ~/scripts/configureNodes.sh
-echo "Configured"
-
 # Create Jenkins
 rm -f ../manifests/gen/k8s-jenkins-deployment.yml
 
