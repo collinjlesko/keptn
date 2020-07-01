@@ -181,14 +181,15 @@ echo "--------------------------"
 echo "Setup Ansible Tower "
 echo "--------------------------"
 
-kubectl create -f ../manifests/ansible-tower/namespace.yml
-kubectl create -f ../manifests/ansible-tower/deployment.yml
-kubectl create -f ../manifests/ansible-tower/service.yml
+echo "Ansible not required for endorsement..."
+#kubectl create -f ../manifests/ansible-tower/namespace.yml
+#kubectl create -f ../manifests/ansible-tower/deployment.yml
+#kubectl create -f ../manifests/ansible-tower/service.yml
 
-echo "wait 2 minutes for changes to apply..."
-sleep 120
+#echo "wait 2 minutes for changes to apply..."
+#sleep 120
 
-./configureAnsible.sh
+#./configureAnsible.sh
 
 echo "--------------------------"
 echo "End set up Ansible Tower "
