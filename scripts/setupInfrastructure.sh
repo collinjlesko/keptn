@@ -67,7 +67,8 @@ export LATEST_RELEASE=$(curl -s https://api.github.com/repos/dynatrace/dynatrace
 # export LATEST_RELEASE=v0.3.0
 echo "Installing Dynatrace Operator $LATEST_RELEASE"
 kubectl create namespace dynatrace
-kubectl create -f https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/$LATEST_RELEASE/deploy/kubernetes.yaml --validate=false
+#kubectl create -f https://raw.githubusercontent.com/Dynatrace/dynatrace-oneagent-operator/$LATEST_RELEASE/deploy/kubernetes.yaml --validate=false
+kubectl create -f https://github.com/Dynatrace/dynatrace-oneagent-operator/releases/download/$LATEST_RELEASE/kubernetes.yaml
 sleep 60
 kubectl -n dynatrace create secret generic oneagent --from-literal="apiToken=$DT_API_TOKEN" --from-literal="paasToken=$DT_PAAS_TOKEN"
 rm -f ../manifests/gen/oneagent-cr.yml
