@@ -77,7 +77,7 @@ cat ../manifests/dynatrace/oneagent-cr.yml | sed 's~ENVIRONMENTID.live.dynatrace
 mv ../manifests/dynatrace/cr_tmp.yml ../manifests/gen/oneagent-cr.yml
 #add sed for enable istio here...
 #everything else worked?
-sed -i 's/#enableIstio: false/enableIstio: true/g' ../manifests/gen/oneagent-cr.yml
+sed -i 's/# enableIstio: false/enableIstio: true/g' ../manifests/gen/oneagent-cr.yml
 kubectl create -f ../manifests/gen/oneagent-cr.yml
 
 # Apply auto tagging rules in Dynatrace
